@@ -21,7 +21,7 @@ Android 5 **Lollipop** or higher.
 
 ## Development
 
-[Android Studio](http://developer.android.com/intl/es/tools/studio/index.html) is being used to develop the app.
+[Android Studio](https://developer.android.com/studio/intro/index.html) is being used to develop the app.
 
 
 ### Code Style
