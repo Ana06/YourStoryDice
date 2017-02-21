@@ -22,22 +22,6 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     int num_dice = 4;
-    Random random = new Random();
-    private Integer[] defaultDice = {
-            R.drawable.default1,
-            R.drawable.default2,
-            R.drawable.default3,
-            R.drawable.default4,
-            R.drawable.default5,
-            R.drawable.default6,
-            R.drawable.default7,
-            R.drawable.default8,
-            R.drawable.default9,
-            R.drawable.default10,
-            R.drawable.default11,
-            R.drawable.default12,
-            R.drawable.default13
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +37,7 @@ public class MainActivity extends AppCompatActivity
                 GridView gridview = (GridView) findViewById(R.id.gridview);
                 for (int position = 0; position < num_dice; position++) {
                     ImageView imageView = (ImageView) gridview.getChildAt(position);
-                    imageView.setImageResource(defaultDice[random.nextInt(defaultDice.length)]);
+                    imageView.setImageResource(getDiceImage());
                 }
             }
         });
@@ -128,6 +112,32 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Select a random image from the default ones to be used as a die
+     *
+     * @return an integer which represents the image to be used as a die
+     */
+    private Integer getDiceImage(){
+        Random random = new Random();
+        Integer[] defaultDice = {
+                R.drawable.default1,
+                R.drawable.default2,
+                R.drawable.default3,
+                R.drawable.default4,
+                R.drawable.default5,
+                R.drawable.default6,
+                R.drawable.default7,
+                R.drawable.default8,
+                R.drawable.default9,
+                R.drawable.default10,
+                R.drawable.default11,
+                R.drawable.default12,
+                R.drawable.default13
+        };
+
+        return defaultDice[random.nextInt(defaultDice.length)];
+    }
+
     private class DiceAdapter extends BaseAdapter {
         private Context mContext;
 
@@ -155,7 +165,7 @@ public class MainActivity extends AppCompatActivity
             //Resize the image to match the ImageView
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            imageView.setImageResource(defaultDice[random.nextInt(defaultDice.length)]);
+            imageView.setImageResource(getDiceImage());
             return imageView;
         }
     }
