@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 GridView gridview = (GridView) findViewById(R.id.gridview);
+                int[] dice_images = getDiceImages();
                 for (int position = 0; position < num_dice; position++) {
                     ImageView imageView = (ImageView) gridview.getChildAt(position);
-                    imageView.setImageResource(getDiceImage());
+                    imageView.setImageResource(dice_images[position]);
                 }
             }
         });
@@ -113,11 +114,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Select a random image from the default ones to be used as a die
+     * Select four random different images from the default ones to be used as a dice
      *
-     * @return an integer which represents the image to be used as a die
+     * @return an array of integers which represents the images to be used as dice
      */
-    private Integer getDiceImage(){
+    private int[] getDiceImages(){
         Random random = new Random();
         Integer[] defaultDice = {
                 R.drawable.default1,
@@ -135,14 +136,27 @@ public class MainActivity extends AppCompatActivity
                 R.drawable.default13
         };
 
-        return defaultDice[random.nextInt(defaultDice.length)];
+        int[] fetched_images = new int[num_dice];
+        for(int position = 0; position < num_dice; position++) {
+            int random_image = defaultDice[random.nextInt(defaultDice.length)];
+            for(int index = 0; index < position; index++) {
+                if(random_image == fetched_images[index]) {
+                    random_image = defaultDice[random.nextInt(defaultDice.length)];
+                    index = -1;
+                }
+            }
+            fetched_images[position] = random_image;
+        }
+        return fetched_images;
     }
 
     private class DiceAdapter extends BaseAdapter {
         private Context mContext;
+        private int[] dice_images;
 
         public DiceAdapter(Context context) {
             mContext = context;
+            dice_images = getDiceImages();
         }
 
         public int getCount() {
@@ -165,7 +179,7 @@ public class MainActivity extends AppCompatActivity
             //Resize the image to match the ImageView
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            imageView.setImageResource(getDiceImage());
+            imageView.setImageResource(dice_images[position]);
             return imageView;
         }
     }
