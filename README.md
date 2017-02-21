@@ -2,7 +2,6 @@
 
 Android application which shows some images (or dice) which you must use to create a short story.
 
-
 This is a great application that you may want to use for many purposes:
 
  - Improving your creativity skills
@@ -18,6 +17,14 @@ This is a great application that you may want to use for many purposes:
 ## Requirements
 
 Android 5 **Lollipop** or higher.
+
+## Languages supported
+
+We are currently supporting the following languages:
+
+ - English
+ - Spanish
+ - German
 
 ## Development
 
