@@ -1,8 +1,8 @@
 package org.opensuse.dice.yourstorydice;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +12,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.BaseAdapter;
+import android.view.ViewGroup;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    int num_dice = 4;
+    Random random = new Random();
+    private Integer[] defaultDice = {
+            R.drawable.default1,
+            R.drawable.default2,
+            R.drawable.default3,
+            R.drawable.default4,
+            R.drawable.default5,
+            R.drawable.default6,
+            R.drawable.default7,
+            R.drawable.default8,
+            R.drawable.default9,
+            R.drawable.default10,
+            R.drawable.default11,
+            R.drawable.default12,
+            R.drawable.default13
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +50,11 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                GridView gridview = (GridView) findViewById(R.id.gridview);
+                for (int position = 0; position < num_dice; position++) {
+                    ImageView imageView = (ImageView) gridview.getChildAt(position);
+                    imageView.setImageResource(defaultDice[random.nextInt(defaultDice.length)]);
+                }
             }
         });
 
@@ -40,6 +66,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new DiceAdapter(this));
     }
 
     @Override
@@ -97,5 +126,37 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class DiceAdapter extends BaseAdapter {
+        private Context mContext;
+
+        public DiceAdapter(Context context) {
+            mContext = context;
+        }
+
+        public int getCount() {
+            return num_dice;
+        }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        // create a new Dice for each item referenced by the Adapter
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageView = new ImageView(mContext);
+            // Set the size of the ImageView
+            imageView.setLayoutParams(new GridView.LayoutParams(400, 400));
+            //Resize the image to match the ImageView
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            imageView.setImageResource(defaultDice[random.nextInt(defaultDice.length)]);
+            return imageView;
+        }
     }
 }
