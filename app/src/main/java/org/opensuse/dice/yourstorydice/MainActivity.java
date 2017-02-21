@@ -133,7 +133,17 @@ public class MainActivity extends AppCompatActivity
                 R.drawable.default10,
                 R.drawable.default11,
                 R.drawable.default12,
-                R.drawable.default13
+                R.drawable.default13,
+                R.drawable.default14,
+                R.drawable.default15,
+                R.drawable.default16,
+                R.drawable.default17,
+                R.drawable.default18,
+                R.drawable.default19,
+                R.drawable.default20,
+                R.drawable.default21,
+                R.drawable.default22,
+                R.drawable.default23
         };
 
         int[] fetched_images = new int[num_dice];
