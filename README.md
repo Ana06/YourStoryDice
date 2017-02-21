@@ -2,6 +2,8 @@
 
 Android application which shows some images (or dice) which you must use to create a short story.
 
+<img src=Screenshot.png width=384 height=640 alt='YourStoryDice screenshot' />
+
 This is a great application that you may want to use for many purposes:
 
  - Improving your creativity skills
