@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_add_die) {
-            // Handle the camera action
+            intent = new Intent(this, NewDieActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_settings) {
