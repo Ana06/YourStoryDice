@@ -1,3 +1,10 @@
 <resources>
     <string name="action_settings">Ajustes</string>
+
+    <string name="nav_add">Añadir</string>
+    <string name="nav_add_image">Añadir imagen</string>
+    <string name="nav_gallery">Galleria</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="nav_info">Info</string>
+    <string name="nav_information">Información</string>
 </resources>
