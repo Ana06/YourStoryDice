@@ -16,4 +16,7 @@
 
     <!-- Info -->
     <string name="info">Fork me on GitHub</string>
+
+    <!-- Settings -->
+    <string name="no_settings">There are not settings yet</string>
 </resources>
