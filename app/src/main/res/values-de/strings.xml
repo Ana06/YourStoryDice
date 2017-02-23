@@ -16,4 +16,7 @@
 
     <!-- New Die -->
     <string name="save">Speichern</string>
+    <string name="error_save_permissions">Bitte aktivier die benötigten Berechtigungen.</string>
+    <string name="error_save_fails">Dein Bild konnte nicht gespeichert werden. Ist dein externer Speicher eingehangen?</string>
+    <string name="successfully_saved">Dein Bild wurde erfolgreich gespeichert in:</string>
 </resources>

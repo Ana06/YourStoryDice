@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,8 @@ public class DrawingDiceView extends View {
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
+
+        setDrawingCacheEnabled(true);
     }
 
     @Override
@@ -42,6 +45,15 @@ public class DrawingDiceView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
+    }
+
+    /**
+     * Reset the canvas to allow starting a new picture
+     */
+    public void clean(){
+        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        destroyDrawingCache();
+        invalidate();
     }
 
     @Override
