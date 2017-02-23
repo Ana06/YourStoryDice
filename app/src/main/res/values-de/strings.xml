@@ -13,4 +13,7 @@
 
     <!-- Settings -->
     <string name="no_settings">Keine Einstellungen verfügbar</string>
+
+    <!-- New Die -->
+    <string name="save">Speichern</string>
 </resources>

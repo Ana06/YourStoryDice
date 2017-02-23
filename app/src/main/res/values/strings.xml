@@ -19,4 +19,7 @@
 
     <!-- Settings -->
     <string name="no_settings">There are not settings yet</string>
+
+    <!-- New Die -->
+    <string name="save">Save</string>
 </resources>

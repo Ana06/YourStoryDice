@@ -13,4 +13,7 @@
 
     <!-- Settings -->
     <string name="no_settings">No hay ajustes todavía</string>
+
+    <!-- New Die -->
+    <string name="save">Guardar</string>
 </resources>
