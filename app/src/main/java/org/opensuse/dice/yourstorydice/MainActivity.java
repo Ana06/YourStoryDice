@@ -35,12 +35,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GridView gridview = (GridView) findViewById(R.id.gridview);
-                int[] dice_images = getDiceImages();
-                for (int position = 0; position < num_dice; position++) {
-                    ImageView imageView = (ImageView) gridview.getChildAt(position);
-                    imageView.setImageResource(dice_images[position]);
-                }
+                dice(num_dice);
             }
         });
 
@@ -115,11 +110,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Select four random different images from the default ones to be used as a dice
+     * Fetch a number of dice and render them in the activity.
+     *
+     * @param num_dice number of dice that get generated
+     */
+    private void dice(int num_dice) {
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        int[] dice_images = getDiceImages();
+        for(int position = 0; position < num_dice; position++) {
+            ImageView imageView = (ImageView) gridview.getChildAt(position);
+            imageView.setImageResource(dice_images[position]);
+        }
+    }
+
+    /**
+     * Select four random different images from the default ones to be used as a dice.
      *
      * @return an array of integers which represents the images to be used as dice
      */
-    private int[] getDiceImages(){
+    private int[] getDiceImages() {
         Random random = new Random();
         Integer[] defaultDice = {
                 R.drawable.default1,
