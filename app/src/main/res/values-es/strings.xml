@@ -1,6 +1,4 @@
 <resources>
-    <string name="action_settings">Ajustes</string>
-
     <!-- Navbar -->
     <string name="nav_add">Añadir</string>
     <string name="nav_add_image">Añadir imagen</string>

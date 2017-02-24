@@ -1,7 +1,5 @@
 <resources>
-    <string name="action_settings">Einstellungen</string>
-
-    <!-- Navbar -->
+     <!-- Navbar -->
     <string name="nav_add">Hinzufügen</string>
     <string name="nav_add_image">Bild hinzufügen</string>
     <string name="nav_gallery">Galerie</string>
