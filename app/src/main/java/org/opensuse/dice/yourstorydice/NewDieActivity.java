@@ -123,10 +123,10 @@ public class NewDieActivity extends AppCompatActivity {
         writable_db.insert(FeedDiceTable.FeedEntry.TABLE_NAME, null, values);
     }
 
-    private File getStorageDir() {
+    // FIXME: Move to helper class
+    public static File getStorageDir() {
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "YourStoryDice");
         file.mkdirs();
         return file;
     }
-
 }

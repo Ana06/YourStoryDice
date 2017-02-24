@@ -2,6 +2,10 @@ package org.opensuse.dice.yourstorydice;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -18,15 +22,44 @@ import android.widget.ImageView;
 import android.widget.BaseAdapter;
 import android.view.ViewGroup;
 
+import java.io.File;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private FeedYourStoryDiceDbHelper mDbHelper;
+    Integer[] defaultDice = {
+            R.drawable.default1,
+            R.drawable.default2,
+            R.drawable.default3,
+            R.drawable.default4,
+            R.drawable.default5,
+            R.drawable.default6,
+            R.drawable.default7,
+            R.drawable.default8,
+            R.drawable.default9,
+            R.drawable.default10,
+            R.drawable.default11,
+            R.drawable.default12,
+            R.drawable.default13,
+            R.drawable.default14,
+            R.drawable.default15,
+            R.drawable.default16,
+            R.drawable.default17,
+            R.drawable.default18,
+            R.drawable.default19,
+            R.drawable.default20,
+            R.drawable.default21,
+            R.drawable.default22,
+            R.drawable.default23
+    };
     int num_dice = 4;
+    long customDiceNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,6 +80,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mDbHelper = new FeedYourStoryDiceDbHelper(this);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new DiceAdapter(this));
@@ -109,6 +144,28 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
+    private void setDiceImageView(int position, ImageView imageView, long[] diceImages) {
+        if (diceImages[position] < customDiceNum) {
+            SQLiteDatabase readableDb = mDbHelper.getReadableDatabase();
+            Cursor cursor = readableDb.rawQuery(
+                    "SELECT * FROM " + FeedDiceTable.FeedEntry.TABLE_NAME +
+                            " LIMIT 1 OFFSET " + String.valueOf(diceImages[position])
+                    , null
+            );
+
+            cursor.moveToFirst();
+            String fileName = cursor.getString(cursor.getColumnIndex(FeedDiceTable.FeedEntry.COLUMN_NAME_FILE_NAME));
+
+            File path = NewDieActivity.getStorageDir();
+            File file = new File(path, fileName);
+            Drawable drawable = Drawable.createFromPath(file.getPath());
+            imageView.setImageDrawable(drawable);
+        } else {
+            int index = (int) (diceImages[position] - customDiceNum);
+            imageView.setImageResource(defaultDice[index]);
+        }
+    }
+
     /**
      * Fetch a number of dice and render them in the activity.
      *
@@ -116,67 +173,48 @@ public class MainActivity extends AppCompatActivity
      */
     private void dice(int num_dice) {
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        int[] dice_images = getDiceImages();
-        for(int position = 0; position < num_dice; position++) {
+        long[] diceImages = getRandomDiceNumbers();
+
+        for (int position = 0; position < num_dice; position++) {
             ImageView imageView = (ImageView) gridview.getChildAt(position);
-            imageView.setImageResource(dice_images[position]);
+            setDiceImageView(position, imageView, diceImages);
         }
     }
 
     /**
-     * Select four random different images from the default ones to be used as a dice.
+     * Get array of random numbers of dice images. Each number repesents either
+     * a default or custom dice image.
      *
-     * @return an array of integers which represents the images to be used as dice
+     * @return an array of numbers which represents the images to be used as dice
      */
-    private int[] getDiceImages() {
+    private long[] getRandomDiceNumbers() {
         Random random = new Random();
-        Integer[] defaultDice = {
-                R.drawable.default1,
-                R.drawable.default2,
-                R.drawable.default3,
-                R.drawable.default4,
-                R.drawable.default5,
-                R.drawable.default6,
-                R.drawable.default7,
-                R.drawable.default8,
-                R.drawable.default9,
-                R.drawable.default10,
-                R.drawable.default11,
-                R.drawable.default12,
-                R.drawable.default13,
-                R.drawable.default14,
-                R.drawable.default15,
-                R.drawable.default16,
-                R.drawable.default17,
-                R.drawable.default18,
-                R.drawable.default19,
-                R.drawable.default20,
-                R.drawable.default21,
-                R.drawable.default22,
-                R.drawable.default23
-        };
+        SQLiteDatabase readableDb = mDbHelper.getReadableDatabase();
 
-        int[] fetched_images = new int[num_dice];
-        for(int position = 0; position < num_dice; position++) {
-            int random_image = defaultDice[random.nextInt(defaultDice.length)];
-            for(int index = 0; index < position; index++) {
-                if(random_image == fetched_images[index]) {
-                    random_image = defaultDice[random.nextInt(defaultDice.length)];
+        customDiceNum = DatabaseUtils.queryNumEntries(readableDb, FeedDiceTable.FeedEntry.TABLE_NAME);
+        long totalDiceNum = defaultDice.length + customDiceNum;
+
+        long[] fetchedNumbers = new long[num_dice];
+        for (int position = 0; position < num_dice; position++) {
+            long randomNum = Math.abs(random.nextLong() % totalDiceNum);
+            for (int index = 0; index < position; index++) {
+                if (randomNum == fetchedNumbers[index]) {
+                    randomNum = Math.abs(random.nextLong() % totalDiceNum);
                     index = -1;
                 }
             }
-            fetched_images[position] = random_image;
+            fetchedNumbers[position] = randomNum;
         }
-        return fetched_images;
+        return fetchedNumbers;
     }
 
     private class DiceAdapter extends BaseAdapter {
         private Context mContext;
-        private int[] dice_images;
+        private long[] diceImages;
 
         public DiceAdapter(Context context) {
             mContext = context;
-            dice_images = getDiceImages();
+            diceImages = getRandomDiceNumbers();
         }
 
         public int getCount() {
@@ -199,7 +237,8 @@ public class MainActivity extends AppCompatActivity
             //Resize the image to match the ImageView
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            imageView.setImageResource(dice_images[position]);
+            setDiceImageView(position, imageView, diceImages);
+
             return imageView;
         }
     }
