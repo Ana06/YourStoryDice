@@ -1,7 +1,9 @@
 package org.opensuse.dice.yourstorydice;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
@@ -19,7 +21,12 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class NewDieActivity extends AppCompatActivity {
+    private FeedYourStoryDiceDbHelper mDbHelper;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mDbHelper = new FeedYourStoryDiceDbHelper(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_die);
     }
@@ -74,6 +81,12 @@ public class NewDieActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        mDbHelper.close();
+        super.onDestroy();
+    }
+
     private void storeImage() {
         DrawingDiceView canvas = (DrawingDiceView) findViewById(R.id.canvas);
 
@@ -88,6 +101,8 @@ public class NewDieActivity extends AppCompatActivity {
             // Make the file available to the user immediately
             MediaScannerConnection.scanFile(this, new String[]{file.toString()}, null, null);
 
+            storeDiceInDb(file);
+
             Snackbar.make(findViewById(R.id.canvas), getString(R.string.successfully_saved) + " " + file.getPath(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             Log.d("storeImage", "Your image was successfully saved in: " + file.getPath());
             canvas.clean();
@@ -95,6 +110,17 @@ public class NewDieActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.canvas), getString(R.string.error_save_fails), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             Log.d("storeImage", "Something went wrong, your image couldn't be saved");
         }
+    }
+
+    private void storeDiceInDb(File file) {
+        SQLiteDatabase writable_db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedDiceTable.FeedEntry.COLUMN_NAME_FILE_NAME, file.getName());
+        values.put(FeedDiceTable.FeedEntry.COLUMN_NAME_TYPE, "custom");
+        // FIXME: store md5sum
+
+        writable_db.insert(FeedDiceTable.FeedEntry.TABLE_NAME, null, values);
     }
 
     private File getStorageDir() {
