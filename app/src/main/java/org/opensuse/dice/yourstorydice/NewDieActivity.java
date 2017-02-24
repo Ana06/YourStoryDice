@@ -94,7 +94,7 @@ public class NewDieActivity extends AppCompatActivity {
             File file = new File(getStorageDir(), UUID.randomUUID().toString() + ".png");
 
             FileOutputStream out = new FileOutputStream(file);
-            canvas.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 100, out);
+            canvas.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, out);
             out.flush();
             out.close();
 
