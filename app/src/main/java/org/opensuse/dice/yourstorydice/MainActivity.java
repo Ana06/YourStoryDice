@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dice(num_dice);
+                dice();
             }
         });
 
@@ -177,9 +177,8 @@ public class MainActivity extends AppCompatActivity
      * Fetch a number of dice and render them in the activity.
      * Dice images get stored internally for later usage.
      *
-     * @param num_dice number of dice that get generated
      */
-    private void dice(int num_dice) {
+    private void dice() {
         diceImages = getRandomDiceNumbers();
         drawDice(diceImages);
     }
