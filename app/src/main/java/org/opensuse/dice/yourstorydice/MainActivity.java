@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
             R.drawable.default23
     };
     int num_dice = 4;
+    long[] diceImages;
     long customDiceNum;
 
     @Override
@@ -83,6 +84,10 @@ public class MainActivity extends AppCompatActivity
 
         mDbHelper = new FeedYourStoryDiceDbHelper(this);
 
+        if (savedInstanceState == null) {
+            diceImages = getRandomDiceNumbers();
+        }
+
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new DiceAdapter(this));
     }
@@ -93,6 +98,22 @@ public class MainActivity extends AppCompatActivity
         readableDb.close();
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle instanceState) {
+        super.onSaveInstanceState(instanceState);
+
+        instanceState.putLong("customDiceNum", customDiceNum);
+        instanceState.putLongArray("diceImages", diceImages);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            diceImages = savedInstanceState.getLongArray("diceImages");
+            customDiceNum = savedInstanceState.getLong("customDiceNum");
+        }
     }
 
     @Override
@@ -154,16 +175,26 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Fetch a number of dice and render them in the activity.
+     * Dice images get stored internally for later usage.
      *
      * @param num_dice number of dice that get generated
      */
     private void dice(int num_dice) {
+        diceImages = getRandomDiceNumbers();
+        drawDice(diceImages);
+    }
+
+    /**
+     * Draw a given number of dice images
+     *
+     * @param dieImageIds Array of die image ids
+     */
+    private void drawDice(long[] dieImageIds) {
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        long[] diceImages = getRandomDiceNumbers();
 
         for (int position = 0; position < num_dice; position++) {
             ImageView imageView = (ImageView) gridview.getChildAt(position);
-            setDiceImageView(position, imageView, diceImages);
+            setDiceImageView(position, imageView, dieImageIds);
         }
     }
 
@@ -191,16 +222,15 @@ public class MainActivity extends AppCompatActivity
             }
             fetchedNumbers[position] = randomNum;
         }
+
         return fetchedNumbers;
     }
 
     private class DiceAdapter extends BaseAdapter {
         private Context mContext;
-        private long[] diceImages;
 
         public DiceAdapter(Context context) {
             mContext = context;
-            diceImages = getRandomDiceNumbers();
         }
 
         public int getCount() {
