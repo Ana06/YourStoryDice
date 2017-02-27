@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         Intent intent;
@@ -137,7 +136,8 @@ public class MainActivity extends AppCompatActivity
             intent = new Intent(this, NewDieActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-
+            intent = new Intent(this, GalleryListActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
             intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);

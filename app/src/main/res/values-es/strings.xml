@@ -18,4 +18,9 @@
     <string name="error_save_permissions">No tienes permisos para guardar imágenes, por favor actívalos</string>
     <string name="error_save_fails">No se ha podido guardar tu imagen, por favor comprueba que el almacenamiento externo está disponible</string>
     <string name="successfully_saved">Tu dibujo se ha guardado correctamente en:</string>
+
+    <!-- Gallery list -->
+    <string name="gallery_all">Todas las imágenes</string>
+    <string name="gallery_default">Imágenes por defecto</string>
+    <string name="gallery_custom">Tus imágenes</string>
 </resources>

@@ -18,4 +18,9 @@
     <string name="error_save_permissions">Bitte aktivier die benötigten Berechtigungen.</string>
     <string name="error_save_fails">Dein Bild konnte nicht gespeichert werden. Ist dein externer Speicher eingehangen?</string>
     <string name="successfully_saved">Dein Bild wurde erfolgreich gespeichert in:</string>
+
+    <!-- Gallery list -->
+    <string name="gallery_all">Alle Bilder</string>
+    <string name="gallery_default">Standardbilder</string>
+    <string name="gallery_custom">Deine Bilder</string>
 </resources>
