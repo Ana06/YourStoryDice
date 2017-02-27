@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity
             //Resize the image to match the ImageView
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
+            imageView.setBackgroundResource(R.drawable.square_die);
             setDiceImageView(position, imageView, diceImages);
 
             return imageView;

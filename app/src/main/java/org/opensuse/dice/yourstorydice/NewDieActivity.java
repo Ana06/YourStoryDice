@@ -3,8 +3,10 @@ package org.opensuse.dice.yourstorydice;
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
@@ -94,6 +96,7 @@ public class NewDieActivity extends AppCompatActivity {
             File file = new File(getStorageDir(), UUID.randomUUID().toString() + ".png");
 
             FileOutputStream out = new FileOutputStream(file);
+            canvas.setBackground(null);
             canvas.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, out);
             out.flush();
             out.close();
@@ -109,6 +112,8 @@ public class NewDieActivity extends AppCompatActivity {
         } catch (IOException e) {
             Snackbar.make(findViewById(R.id.canvas), getString(R.string.error_save_fails), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             Log.d("storeImage", "Something went wrong, your image couldn't be saved");
+        } finally {
+            canvas.setBackgroundResource(R.drawable.square_die);
         }
     }
 
