@@ -21,5 +21,6 @@
         android:numColumns="2"
         android:verticalSpacing="20dp"
         android:stretchMode="columnWidth"
-        android:gravity="center" />
+        android:gravity="center"
+        android:clickable="true"/>
 </RelativeLayout>
