@@ -1,5 +1,6 @@
 package org.opensuse.dice.yourstorydice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,7 +19,8 @@ public class GalleryListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapter, View view, int position, long arg) {
-
+                Intent intent = new Intent(GalleryListActivity.this, GalleryActivity.class);
+                startActivity(intent);
             }
         });
     }
