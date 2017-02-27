@@ -10,6 +10,13 @@
         android:layout_margin="8dp"
         android:background="@drawable/square_die" />
 
+    <TextView
+        android:text="@string/license"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:id="@+id/textView3" />
+
     <Button
         android:text="@string/save"
         android:layout_width="match_parent"

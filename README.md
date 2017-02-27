@@ -46,3 +46,10 @@ Following Material design style. For more information you can read the [Material
 ## Licence
 
 Code published under GNU GENERAL PUBLIC LICENSE v3 (see [LICENSE](LICENSE)).
+
+### Images
+
+The default-_i_.png in the [drawable folder](/app/src/main/res/drawable/) have all rights reserved. 
+
+Images painted by users in the app are under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), that means that they 
+belong to the public domain. The user accepts this licence when installing the app.
