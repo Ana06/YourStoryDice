@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity
             R.drawable.default22,
             R.drawable.default23
     };
-    int num_dice = 4;
-    long[] diceImages;
-    long customDiceNum;
+    int numDice = 4;
+    long[] dieImageIds;
+    long customDiceCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         mDbHelper = new FeedYourStoryDiceDbHelper(this);
 
         if (savedInstanceState == null) {
-            diceImages = getRandomDiceNumbers();
+            dieImageIds = getRandomDiceNumbers();
         }
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
@@ -104,15 +104,15 @@ public class MainActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle instanceState) {
         super.onSaveInstanceState(instanceState);
 
-        instanceState.putLong("customDiceNum", customDiceNum);
-        instanceState.putLongArray("diceImages", diceImages);
+        instanceState.putLong("customDiceCount", customDiceCount);
+        instanceState.putLongArray("dieImageIds", dieImageIds);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            diceImages = savedInstanceState.getLongArray("diceImages");
-            customDiceNum = savedInstanceState.getLong("customDiceNum");
+            dieImageIds = savedInstanceState.getLongArray("dieImageIds");
+            customDiceCount = savedInstanceState.getLong("customDiceCount");
         }
     }
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setDiceImageView(int position, ImageView imageView, long[] diceImages) {
-        if (diceImages[position] < customDiceNum) {
+        if (diceImages[position] < customDiceCount) {
             SQLiteDatabase readableDb = mDbHelper.getReadableDatabase();
             Cursor cursor = readableDb.rawQuery(
                     "SELECT * FROM " + FeedDiceTable.FeedEntry.TABLE_NAME +
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity
             Drawable drawable = Drawable.createFromPath(file.getPath());
             imageView.setImageDrawable(drawable);
         } else {
-            int index = (int) (diceImages[position] - customDiceNum);
+            int index = (int) (diceImages[position] - customDiceCount);
             imageView.setImageResource(defaultDice[index]);
         }
     }
@@ -179,8 +179,8 @@ public class MainActivity extends AppCompatActivity
      *
      */
     private void dice() {
-        diceImages = getRandomDiceNumbers();
-        drawDice(diceImages);
+        dieImageIds = getRandomDiceNumbers();
+        drawDice(dieImageIds);
     }
 
     /**
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity
     private void drawDice(long[] dieImageIds) {
         GridView gridview = (GridView) findViewById(R.id.gridview);
 
-        for (int position = 0; position < num_dice; position++) {
+        for (int position = 0; position < numDice; position++) {
             ImageView imageView = (ImageView) gridview.getChildAt(position);
             setDiceImageView(position, imageView, dieImageIds);
         }
@@ -207,11 +207,11 @@ public class MainActivity extends AppCompatActivity
         Random random = new Random();
         SQLiteDatabase readableDb = mDbHelper.getReadableDatabase();
 
-        customDiceNum = DatabaseUtils.queryNumEntries(readableDb, FeedDiceTable.FeedEntry.TABLE_NAME);
-        long totalDiceNum = defaultDice.length + customDiceNum;
+        customDiceCount = DatabaseUtils.queryNumEntries(readableDb, FeedDiceTable.FeedEntry.TABLE_NAME);
+        long totalDiceNum = defaultDice.length + customDiceCount;
 
-        long[] fetchedNumbers = new long[num_dice];
-        for (int position = 0; position < num_dice; position++) {
+        long[] fetchedNumbers = new long[numDice];
+        for (int position = 0; position < numDice; position++) {
             long randomNum = Math.abs(random.nextLong() % totalDiceNum);
             for (int index = 0; index < position; index++) {
                 if (randomNum == fetchedNumbers[index]) {
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         public int getCount() {
-            return num_dice;
+            return numDice;
         }
 
         public Object getItem(int position) {
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             imageView.setBackgroundResource(R.drawable.square_die);
-            setDiceImageView(position, imageView, diceImages);
+            setDiceImageView(position, imageView, dieImageIds);
 
             return imageView;
         }
