@@ -7,7 +7,6 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick (AdapterView<?> parent, View view, int position, long id){
-                Log.d("bla", "bla");
                 dice();
             }
 
