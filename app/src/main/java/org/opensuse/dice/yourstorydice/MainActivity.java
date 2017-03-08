@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +22,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.BaseAdapter;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import java.io.File;
 import java.util.Random;
@@ -82,19 +84,10 @@ public class MainActivity extends AppCompatActivity
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new DiceAdapter(this));
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick (AdapterView<?> parent, View view, int position, long id){
-                // Give haptical feedback to make user aware that re-dice got triggered
-                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                if (vibrator != null) {
-                    vibrator.vibrate(new long [] { 0, 7, 2, 7 }, -1);
-                }
+        gridview.setOnTouchListener(getOntouchListener());
 
-                dice();
-            }
-
-        });
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.content_main);
+        layout.setOnTouchListener(getOntouchListener());
     }
 
     @Override
@@ -154,6 +147,29 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return false;
+    }
+
+    /**
+     * Helper function that sets up a touch listener for dice events
+     *
+     * @return on touch listener that triggers dice event
+     */
+    private View.OnTouchListener getOntouchListener() {
+        return new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Give haptical feedback to make user aware that re-dice got triggered
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    if (vibrator != null) {
+                        vibrator.vibrate(new long [] { 0, 7, 2, 7 }, -1);
+                    }
+                    dice();
+                }
+
+                return true;
+            }
+        };
     }
 
     private void setDiceImageView(int position, ImageView imageView, long[] diceImages) {
