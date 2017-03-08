@@ -2,6 +2,7 @@ package org.opensuse.dice.yourstorydice;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,6 +31,9 @@ public class NewDieActivity extends AppCompatActivity {
         mDbHelper = new FeedYourStoryDiceDbHelper(this);
 
         super.onCreate(savedInstanceState);
+
+        // Changing screen orientation would empty the canvas.
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_new_die);
     }
 
