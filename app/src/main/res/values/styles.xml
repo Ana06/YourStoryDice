@@ -8,7 +8,7 @@
     </style>
 
     <style name="MyCustomButton" parent="Base.Widget.AppCompat.Button">
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:padding">19dp</item>
     </style>
