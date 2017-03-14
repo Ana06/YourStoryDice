@@ -7,10 +7,6 @@
             android:icon="@android:drawable/ic_menu_add"
             android:title="@string/nav_add_image"
             android:titleCondensed="@string/nav_add" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="@string/nav_gallery" />
     </group>
 
     <group android:id="@+id/information"

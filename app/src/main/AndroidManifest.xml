@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".InfoActivity"></activity>
-        <activity android:name=".GalleryListActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".NewDieActivity"></activity>
     </application>
