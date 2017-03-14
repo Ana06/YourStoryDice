@@ -16,6 +16,9 @@ This is a great application that you may want to use for many purposes:
  - Using it in your retrospective (SCRUM)
 
 
+[YourStoryDice.apk](YourStoryDice.apk) is the `apk` of the last stable version of the app.
+
+
 ## Requirements
 
 Android 5 **Lollipop** or higher.
