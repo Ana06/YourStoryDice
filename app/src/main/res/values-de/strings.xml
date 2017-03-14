@@ -1,5 +1,7 @@
 <resources>
-     <!-- Navbar -->
+    <string name="app_title">Das beste Story Dice Spiel!</string>
+
+    <!-- Navbar -->
     <string name="nav_add">Hinzufügen</string>
     <string name="nav_add_image">Bild hinzufügen</string>
     <string name="nav_gallery">Galerie</string>
