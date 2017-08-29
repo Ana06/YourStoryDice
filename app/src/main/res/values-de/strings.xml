@@ -17,6 +17,7 @@
     <!-- New Die -->
     <string name="save">Speichern</string>
     <string name="license">Dieses Bild wird unter der CCO 1.0 Lizenz gespeichert.</string>
+    <string name="error_empty_bitmap">Bild konnte nicht gefunden werden. Bitte mal zuerst ein Bild.</string>
     <string name="error_save_permissions">Bitte aktivier die benötigten Berechtigungen.</string>
     <string name="error_save_fails">Dein Bild konnte nicht gespeichert werden. Ist dein externer Speicher eingehangen?</string>
     <string name="successfully_saved">Dein Bild wurde erfolgreich gespeichert in:</string>

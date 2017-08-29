@@ -101,7 +101,15 @@ public class NewDieActivity extends AppCompatActivity {
 
             FileOutputStream out = new FileOutputStream(file);
             canvas.setBackground(null);
-            canvas.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, out);
+            Bitmap drawnBitmap = canvas.getDrawingCache();
+            Bitmap emptyBitmap = Bitmap.createBitmap(drawnBitmap.getWidth(), drawnBitmap.getHeight(), drawnBitmap.getConfig());
+            if (drawnBitmap.sameAs(emptyBitmap)) {
+                Snackbar.make(findViewById(R.id.canvas), getString(R.string.error_empty_bitmap), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                return;
+            } else {
+                drawnBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            }
+
             out.flush();
             out.close();
 

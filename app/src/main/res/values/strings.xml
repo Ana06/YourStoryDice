@@ -22,6 +22,7 @@
     <!-- New Die -->
     <string name="save">Save</string>
     <string name="license">This image will be licensed under CC0 1.0 when saving it.</string>
+    <string name="error_empty_bitmap">This image seems to be empty. Please draw a picture first.</string>
     <string name="error_save_permissions">You have no permissions to save the image, please enable them</string>
     <string name="error_save_fails">Your image couldn\'t be saved, please check that your external storage is mounted</string>
     <string name="successfully_saved">Your image was successfully saved in:</string>
