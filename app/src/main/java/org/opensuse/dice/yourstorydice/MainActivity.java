@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setDiceImageView(int position, ImageView imageView, long[] diceImages) {
         if (diceImages[position] < customDiceCount) {
-            SQLiteDatabase readableDb = mDbHelper.getReadableDatabase();
+            SQLiteDatabase readableDb = mDbHelper.getWritableDatabase();
             Cursor cursor = readableDb.rawQuery(
                     "SELECT * FROM " + FeedDiceTable.FeedEntry.TABLE_NAME +
                             " LIMIT 1 OFFSET " + String.valueOf(diceImages[position])
@@ -183,8 +183,19 @@ public class MainActivity extends AppCompatActivity
 
             File path = NewDieActivity.getStorageDir();
             File file = new File(path, fileName);
-            Drawable drawable = Drawable.createFromPath(file.getPath());
-            imageView.setImageDrawable(drawable);
+            if (file.exists()) {
+                Drawable drawable = Drawable.createFromPath(file.getPath());
+                imageView.setImageDrawable(drawable);
+            } else {
+                SQLiteDatabase writableDb = mDbHelper.getWritableDatabase();
+                String tableName = FeedDiceTable.FeedEntry.TABLE_NAME;
+                String tableId = cursor.getString(cursor.getColumnIndex(FeedDiceTable.FeedEntry._ID));
+
+                Log.d("DBAccess", "deleting row with id '" + tableId + "' of table '" + tableName + "'");
+                int deletedRows = writableDb.delete(tableName, FeedDiceTable.FeedEntry._ID + "=?",  new String[] { tableId });
+                writableDb.close();
+                Log.d("DBAccess", "deleted '" + deletedRows + "' rows");
+            }
         } else {
             int index = (int) (diceImages[position] - customDiceCount);
             imageView.setImageResource(defaultDice[index]);
